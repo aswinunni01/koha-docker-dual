@@ -1,0 +1,24 @@
+version: '3'
+services:
+  ncip:
+    image: bywater/koha-ncip-server:v19.05-latest
+    depends_on:
+      - koha
+    environment:
+      - KOHA_CONF=/conf/koha-conf.xml
+    env_file:
+      - .env
+    ports: 
+      - 3000:3000
+    volumes:
+      - koha_conf:/conf
+      - koha_lib:/kohalib
+    networks:
+      - kohanet
+  koha:
+    volumes:
+      - koha_conf:/etc/koha/sites/${KOHA_INSTANCE}
+      - koha_lib:/usr/share/koha/lib/
+volumes:
+  koha_conf:
+  koha_lib:
